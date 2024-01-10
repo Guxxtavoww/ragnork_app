@@ -7,6 +7,23 @@ datasource db {
   url      = env("RAGNORK_DATABASE_URL")
 }
 
+enum user_account_sex {
+  M
+  F
+  S
+}
+
+model user_account {
+  user_id         String           @id @default(cuid())
+  user_email      String
+  user_password   String
+  sex             user_account_sex
+  birth_date      DateTime?
+  discord_id      String?
+  last_login_date DateTime?
+  created_at      DateTime?        @default(now())
+}
+
 model character_class {
   class_id          String @id @default(cuid())
   class_description String
