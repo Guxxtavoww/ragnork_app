@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: ragnork-database_container
+    environment:
+      MYSQL_ROOT_PASSWORD: ${RAGNORK_DATABASE_ROOT_PASS}
+      MYSQL_DATABASE: ${RAGNORK_DATABASE_NAME}
+    ports:
+      - "3306:3306"
+    networks:
+      - ragnork_network
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+networks:
+  ragnork_network:
+
+volumes:
+  mysql_data:
