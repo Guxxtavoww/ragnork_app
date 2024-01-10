@@ -17,7 +17,7 @@ model user_account {
   user_id         String           @id @default(cuid())
   user_email      String
   user_password   String
-  sex             user_account_sex
+  sex             user_account_sex @default(M)
   birth_date      DateTime?
   discord_id      String?
   last_login_date DateTime?
