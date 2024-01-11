@@ -5,10 +5,10 @@ import { usePathname } from 'next/navigation';
 import { IoChevronDown } from 'react-icons/io5';
 
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card';
 import { cn } from '@/utils/shadcn.util';
 import { navbarLinks } from '@/data/navabar-links.data';
 
@@ -56,10 +56,10 @@ export function Navbar() {
                 {link.linkLabel}
               </Link>
             ) : (
-              <Popover key={index} defaultOpen={false}>
-                <PopoverTrigger
+              <HoverCard key={index} defaultOpen={false} openDelay={0} closeDelay={10}>
+                <HoverCardTrigger
                   className={cn(
-                    'px-2 py-4 flex items-center gap-2 rounded-sm hover:bg-slate-300 transition-all',
+                    'px-2 py-4 flex items-center gap-2 rounded-sm cursor-pointer hover:bg-slate-300 transition-all',
                     {
                       'bg-slate-300': pathname === link.href,
                     }
@@ -67,8 +67,8 @@ export function Navbar() {
                 >
                   <span>{link.linkLabel}</span>
                   <IoChevronDown />
-                </PopoverTrigger>
-                <PopoverContent className="flex flex-col rounded-md p-2 bg-white max-w-[220px]">
+                </HoverCardTrigger>
+                <HoverCardContent className="flex flex-col rounded-md p-2 bg-white max-w-[220px]">
                   {link.subMenuLinks?.map(({ icon: Icon, ...subLink }, idx) => (
                     <Link
                       href={subLink.href}
@@ -79,8 +79,8 @@ export function Navbar() {
                       {subLink.label}
                     </Link>
                   ))}
-                </PopoverContent>
-              </Popover>
+                </HoverCardContent>
+              </HoverCard>
             )
           )}
         </div>

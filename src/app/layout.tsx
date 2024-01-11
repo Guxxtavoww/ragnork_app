@@ -21,7 +21,11 @@ export default function RootLayout({ children }: WithChildren) {
 
     return (
       <TanstackProvider>
-        <html lang="pt-br">
+        <html
+          lang="pt-br"
+          className="scroll-smooth"
+          suppressHydrationWarning={true}
+        >
           <body className={exo.className}>
             <main className="w-full min-h-screen relative">
               <Navbar />
@@ -29,8 +33,8 @@ export default function RootLayout({ children }: WithChildren) {
                 {children}
               </div>
             </main>
+            <Toaster />
           </body>
-          <Toaster />
         </html>
       </TanstackProvider>
     );

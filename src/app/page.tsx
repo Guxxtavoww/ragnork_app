@@ -8,7 +8,7 @@ export default function Page() {
         muted
         src="/background-video.mp4"
         loop={true}
-        className="w-full object-cover max-h-screen absolute top-0 left-0"
+        className="w-full object-cover h-full absolute top-0 left-0"
       />
       <div className="z-10 flex flex-col gap-4 items-center">
         <h2 className="text-5xl font-bold">Bem vindo ao Ragnrok!</h2>
