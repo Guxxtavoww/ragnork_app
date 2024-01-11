@@ -7,24 +7,279 @@ datasource db {
   url      = env("RAGNORK_DATABASE_URL")
 }
 
-enum user_account_sex {
+enum sex_enum {
   M
   F
   S
 }
 
-model user_account {
-  user_id         String           @id @default(cuid())
-  user_email      String
-  user_password   String
-  sex             user_account_sex @default(M)
-  birth_date      DateTime?
-  discord_id      String?
-  last_login_date DateTime?
-  created_at      DateTime?        @default(now())
+model login {
+  account_id             Int       @id @default(autoincrement())
+  userid                 String
+  user_pass              String
+  sex                    sex_enum  @default(M)
+  email                  String
+  group_id               Int       @default(0)
+  state                  Int       @default(0)
+  unban_time             Int       @default(0)
+  expiration_time        Int       @default(0)
+  logincount             Int       @default(0)
+  lastlogin              DateTime?
+  last_ip                String
+  birthdate              DateTime?
+  character_slots        Int       @default(0)
+  pincode                String
+  pincode_change         Int       @default(0)
+  vip_time               Int       @default(0)
+  old_group              Int       @default(0)
+  web_auth_token         String?
+  web_auth_token_enabled Int       @default(0)
+  discord_id             String
+  last_unique_id         Int       @default(0)
 }
 
 model character_class {
-  class_id          String @id @default(cuid())
+  class_id          Int         @id @default(autoincrement())
   class_description String
+  character         character[]
+}
+
+model character {
+  char_id            Int             @id @default(autoincrement())
+  account_id         Int             @default(0)
+  char_num           Int             @default(0)
+  name               String?
+  class              Int
+  related_class      character_class @relation(fields: [class], references: [class_id])
+  base_level         Int             @default(1)
+  job_level          Int             @default(1)
+  base_exp           BigInt          @default(0)
+  job_exp            BigInt          @default(0)
+  zeny               Int             @default(0)
+  str                Int             @default(0)
+  agi                Int             @default(0)
+  vit                Int             @default(0)
+  int                Int             @default(0)
+  dex                Int             @default(0)
+  luk                Int             @default(0)
+  pow                Int             @default(0)
+  sta                Int             @default(0)
+  wis                Int             @default(0)
+  spl                Int             @default(0)
+  con                Int             @default(0)
+  crt                Int             @default(0)
+  max_hp             Int             @default(0)
+  hp                 Int             @default(0)
+  max_sp             Int             @default(0)
+  sp                 Int             @default(0)
+  max_ap             Int             @default(0)
+  ap                 Int             @default(0)
+  status_point       Int             @default(0)
+  skill_point        Int             @default(0)
+  trait_point        Int             @default(0)
+  option             Int             @default(0)
+  karma              Int             @default(0)
+  manner             Int             @default(0)
+  party_id           Int             @default(0)
+  guild_id           Int             @default(0)
+  pet_id             Int             @default(0)
+  homun_id           Int             @default(0)
+  elemental_id       Int             @default(0)
+  hair               Int             @default(0)
+  hair_color         Int             @default(0)
+  clothes_color      Int             @default(0)
+  body               Int             @default(0)
+  weapon             Int             @default(0)
+  shield             Int             @default(0)
+  head_top           Int             @default(0)
+  head_mid           Int             @default(0)
+  head_bottom        Int             @default(0)
+  robe               Int             @default(0)
+  last_map           String?
+  last_x             Int             @default(53)
+  last_y             Int             @default(111)
+  last_instanceid    Int             @default(0)
+  save_map           String?
+  save_x             Int             @default(53)
+  save_y             Int             @default(111)
+  partner_id         Int             @default(0)
+  online             Int             @default(0)
+  father             Int             @default(0)
+  mother             Int             @default(0)
+  child              Int             @default(0)
+  fame               Int             @default(0)
+  rename             Int             @default(0)
+  delete_date        Int             @default(0)
+  moves              Int             @default(0)
+  unban_time         Int             @default(0)
+  font               Int             @default(0)
+  uniqueitem_counter Int             @default(0)
+  sex                sex_enum        @default(M)
+  hotkey_rowshift    Int             @default(0)
+  hotkey_rowshift2   Int             @default(0)
+  clan_id            Int             @default(0)
+  last_login         DateTime?
+  title_id           Int             @default(0)
+  show_equip         Int             @default(0)
+  inventory_slots    Int             @default(100)
+  body_direction     Int             @default(0)
+  disable_call       Int             @default(0)
+  hardmode           Int             @default(0)
+}
+
+model mob_db {
+  id                              Int     @id @default(autoincrement())
+  name_aegis                      String  @db.VarChar(24)
+  name_english                    String  @db.Text
+  name_japanese                   String? @db.Text
+  monster_image_url               String?
+  level                           Int?
+  hp                              Int?
+  sp                              Int?
+  base_exp                        Int?
+  job_exp                         Int?
+  mvp_exp                         Int?
+  attack                          Int?
+  attack2                         Int?
+  defense                         Int?
+  magic_defense                   Int?
+  str                             Int?
+  agi                             Int?
+  vit                             Int?
+  int                             Int?
+  dex                             Int?
+  luk                             Int?
+  attack_range                    Int?
+  skill_range                     Int?
+  chase_range                     Int?
+  size                            String? @db.VarChar(24)
+  race                            String? @db.VarChar(24)
+  racegroup_goblin                Int?
+  racegroup_kobold                Int?
+  racegroup_orc                   Int?
+  racegroup_golem                 Int?
+  racegroup_guardian              Int?
+  racegroup_ninja                 Int?
+  racegroup_gvg                   Int?
+  racegroup_battlefield           Int?
+  racegroup_treasure              Int?
+  racegroup_biolab                Int?
+  racegroup_manuk                 Int?
+  racegroup_splendide             Int?
+  racegroup_scaraba               Int?
+  racegroup_ogh_atk_def           Int?
+  racegroup_ogh_hidden            Int?
+  racegroup_bio5_swordman_thief   Int?
+  racegroup_bio5_acolyte_merchant Int?
+  racegroup_bio5_mage_archer      Int?
+  racegroup_bio5_mvp              Int?
+  racegroup_clocktower            Int?
+  racegroup_thanatos              Int?
+  racegroup_faceworm              Int?
+  racegroup_hearthunter           Int?
+  racegroup_rockridge             Int?
+  racegroup_werner_lab            Int?
+  racegroup_temple_demon          Int?
+  racegroup_illusion_vampire      Int?
+  racegroup_malangdo              Int?
+  racegroup_ep172alpha            Int?
+  racegroup_ep172beta             Int?
+  racegroup_ep172bath             Int?
+  element                         String? @db.VarChar(24)
+  element_level                   Int?
+  walk_speed                      Int?
+  attack_delay                    Int?
+  attack_motion                   Int?
+  damage_motion                   Int?
+  damage_taken                    Int?
+  ai                              String? @db.VarChar(2)
+  class                           String? @db.VarChar(50)
+  mode_canmove                    Int?
+  mode_looter                     Int?
+  mode_aggressive                 Int?
+  mode_assist                     Int?
+  mode_castsensoridle             Int?
+  mode_norandomwalk               Int?
+  mode_nocast                     Int?
+  mode_canattack                  Int?
+  mode_castsensorchase            Int?
+  mode_changechase                Int?
+  mode_angry                      Int?
+  mode_changetargetmelee          Int?
+  mode_changetargetchase          Int?
+  mode_targetweak                 Int?
+  mode_randomtarget               Int?
+  mode_ignoremelee                Int?
+  mode_ignoremagic                Int?
+  mode_ignoreranged               Int?
+  mode_mvp                        Int?
+  mode_ignoremisc                 Int?
+  mode_knockbackimmune            Int?
+  mode_teleportblock              Int?
+  mode_fixeditemdrop              Int?
+  mode_detector                   Int?
+  mode_statusimmune               Int?
+  mode_skillimmune                Int?
+  mvpdrop1_item                   String? @db.VarChar(50)
+  mvpdrop1_rate                   Int?
+  mvpdrop1_option                 String? @db.VarChar(50)
+  mvpdrop1_index                  Int?
+  mvpdrop2_item                   String? @db.VarChar(50)
+  mvpdrop2_rate                   Int?
+  mvpdrop2_option                 String? @db.VarChar(50)
+  mvpdrop2_index                  Int?
+  mvpdrop3_item                   String? @db.VarChar(50)
+  mvpdrop3_rate                   Int?
+  mvpdrop3_option                 String? @db.VarChar(50)
+  mvpdrop3_index                  Int?
+  drop1_item                      String? @db.VarChar(50)
+  drop1_rate                      Int?
+  drop1_nosteal                   Int?
+  drop1_option                    String? @db.VarChar(50)
+  drop1_index                     Int?
+  drop2_item                      String? @db.VarChar(50)
+  drop2_rate                      Int?
+  drop2_nosteal                   Int?
+  drop2_option                    String? @db.VarChar(50)
+  drop2_index                     Int?
+  drop3_item                      String? @db.VarChar(50)
+  drop3_rate                      Int?
+  drop3_nosteal                   Int?
+  drop3_option                    String? @db.VarChar(50)
+  drop3_index                     Int?
+  drop4_item                      String? @db.VarChar(50)
+  drop4_rate                      Int?
+  drop4_nosteal                   Int?
+  drop4_option                    String? @db.VarChar(50)
+  drop4_index                     Int?
+  drop5_item                      String? @db.VarChar(50)
+  drop5_rate                      Int?
+  drop5_nosteal                   Int?
+  drop5_option                    String? @db.VarChar(50)
+  drop5_index                     Int?
+  drop6_item                      String? @db.VarChar(50)
+  drop6_rate                      Int?
+  drop6_nosteal                   Int?
+  drop6_option                    String? @db.VarChar(50)
+  drop6_index                     Int?
+  drop7_item                      String? @db.VarChar(50)
+  drop7_rate                      Int?
+  drop7_nosteal                   Int?
+  drop7_option                    String? @db.VarChar(50)
+  drop7_index                     Int?
+  drop8_item                      String? @db.VarChar(50)
+  drop8_rate                      Int?
+  drop8_nosteal                   Int?
+  drop8_option                    String? @db.VarChar(50)
+  drop8_index                     Int?
+  drop9_item                      String? @db.VarChar(50)
+  drop9_rate                      Int?
+  drop9_nosteal                   Int?
+  drop9_option                    String? @db.VarChar(50)
+  drop9_index                     Int?
+  drop10_item                     String? @db.VarChar(50)
+  drop10_rate                     Int?
+  drop10_nosteal                  Int?
+  drop10_option                   String? @db.VarChar(50)
+  drop10_index                    Int?
 }
