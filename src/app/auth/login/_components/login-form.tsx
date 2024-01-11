@@ -20,6 +20,7 @@ export function LoginForm() {
       <form onSubmit={form.handleSubmit((data) => console.log(data))}>
         <Button
           variant="outline"
+          type="button"
           onClick={() =>
             signIn('discord', {
               callbackUrl: window.location.origin,
