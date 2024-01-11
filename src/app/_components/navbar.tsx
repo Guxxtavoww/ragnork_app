@@ -33,7 +33,7 @@ export function Navbar() {
             </Link>
             |
             <Link
-              href="/auth/register"
+              href="/auth/login"
               className="font-semibold hover:text-cyan-400 transition-all"
             >
               Entrar
@@ -56,7 +56,12 @@ export function Navbar() {
                 {link.linkLabel}
               </Link>
             ) : (
-              <HoverCard key={index} defaultOpen={false} openDelay={0} closeDelay={10}>
+              <HoverCard
+                key={index}
+                defaultOpen={false}
+                openDelay={0}
+                closeDelay={10}
+              >
                 <HoverCardTrigger
                   className={cn(
                     'px-2 py-4 flex items-center gap-2 rounded-sm cursor-pointer hover:bg-slate-300 transition-all',

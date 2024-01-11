@@ -7,9 +7,9 @@ class PrimsaInstance {
     this.prismaInstance = new PrismaClient();
   }
 
-  async getPrismaInstance() {
+  getPrismaInstance() {
     if (this.prismaInstance) {
-      await this.prismaInstance.$connect();
+      this.prismaInstance.$connect();
 
       return this.prismaInstance;
     }
@@ -30,7 +30,7 @@ export async function performDatabaseOperation<T>(
   callback: (prisma: PrismaClient) => Promise<T>
 ): Promise<T> {
   try {
-    const prisma = await prismaInstance.getPrismaInstance();
+    const prisma = prismaInstance.getPrismaInstance();
 
     const result = await callback(prisma);
 
@@ -43,3 +43,7 @@ export async function performDatabaseOperation<T>(
     throw error;
   }
 }
+
+const prisma = prismaInstance.getPrismaInstance();
+
+export default prisma;
