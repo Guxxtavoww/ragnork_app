@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { IoChevronDown } from 'react-icons/io5';
+import { Session } from 'next-auth';
 
 import {
   HoverCard,
@@ -12,11 +13,14 @@ import {
 import { cn } from '@/utils/shadcn.util';
 import { navbarLinks } from '@/data/navabar-links.data';
 
-export function Navbar() {
+import { AuthControls } from './auth-controls';
+import { UserAvatarMenu } from './user-avatar-menu';
+
+export function Navbar({ session }: { session: Session | null }) {
   const pathname = usePathname();
 
   return (
-    <nav className="z-20 w-full bg-white flex items-center justify-center h-[120px] fixed top-0 left-0 navbar-padding">
+    <nav className="z-20 w-full bg-white flex items-center justify-center h-[120px] fixed top-0 left-0 navbar-padding shadow-sm">
       <div className="w-full h-full px-2">
         <div className="flex justify-between items-center border-b py-2">
           <Link href="/">
@@ -24,21 +28,7 @@ export function Navbar() {
               Ragnork
             </h1>
           </Link>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/auth/register"
-              className="font-semibold hover:text-cyan-400 transition-all"
-            >
-              Registrar
-            </Link>
-            |
-            <Link
-              href="/auth/login"
-              className="font-semibold hover:text-cyan-400 transition-all"
-            >
-              Entrar
-            </Link>
-          </div>
+          {!session ? <AuthControls /> : <UserAvatarMenu session={session} />}
         </div>
         <div className="flex justify-start pt-2 gap-3">
           {navbarLinks.map((link, index) =>
@@ -60,7 +50,7 @@ export function Navbar() {
                 key={index}
                 defaultOpen={false}
                 openDelay={0}
-                closeDelay={10}
+                closeDelay={0}
               >
                 <HoverCardTrigger
                   className={cn(
