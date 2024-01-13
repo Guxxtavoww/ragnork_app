@@ -17,10 +17,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: WithChildren) {
-  const session = await getAuthSession();
-
   try {
-    envSchema.parse(process.env);
+    const session = await getAuthSession();
 
     return (
       <TanstackProvider>
