@@ -17,10 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: WithChildren) {
+  const session = await getAuthSession();
+
   try {
     envSchema.parse(process.env);
-
-    const session = await getAuthSession();
 
     return (
       <TanstackProvider>
@@ -44,6 +44,11 @@ export default async function RootLayout({ children }: WithChildren) {
   } catch (error) {
     console.error(error);
 
-    return <h1>Variaveis de ambiente inválidas</h1>;
+    return (
+      <div>
+        <h1>Variaveis de ambiente inválidas</h1>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </div>
+    );
   }
 }
