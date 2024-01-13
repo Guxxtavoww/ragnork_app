@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { IoChevronDown } from 'react-icons/io5';
-import { Session } from 'next-auth';
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 import {
   HoverCard,
@@ -14,9 +14,8 @@ import { cn } from '@/utils/shadcn.util';
 import { navbarLinks } from '@/data/navabar-links.data';
 
 import { AuthControls } from './auth-controls';
-import { UserAvatarMenu } from './user-avatar-menu';
 
-export function Navbar({ session }: { session: Session | null }) {
+export function Navbar() {
   const pathname = usePathname();
 
   return (
@@ -28,7 +27,12 @@ export function Navbar({ session }: { session: Session | null }) {
               Ragnork
             </h1>
           </Link>
-          {!session ? <AuthControls /> : <UserAvatarMenu session={session} />}
+          <SignedOut>
+            <AuthControls />
+          </SignedOut>
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
         </div>
         <div className="flex justify-start pt-2 gap-3">
           {navbarLinks.map((link, index) =>

@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE `login` (
-    `account_id` INTEGER NOT NULL AUTO_INCREMENT,
+    `account_id` VARCHAR(191) NOT NULL,
     `userid` VARCHAR(191) NOT NULL,
     `user_pass` VARCHAR(191) NOT NULL,
     `sex` ENUM('M', 'F', 'S') NOT NULL DEFAULT 'M',
@@ -23,6 +23,7 @@ CREATE TABLE `login` (
     `discord_id` VARCHAR(191) NOT NULL,
     `last_unique_id` INTEGER NOT NULL DEFAULT 0,
 
+    UNIQUE INDEX `login_account_id_key`(`account_id`),
     PRIMARY KEY (`account_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

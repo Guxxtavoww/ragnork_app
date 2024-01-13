@@ -1,15 +1,13 @@
 import type { Metadata } from 'next';
 import { Exo } from 'next/font/google';
-import { getServerSession } from 'next-auth';
+import { ClerkProvider } from '@clerk/nextjs';
 
-import { authOptions } from '@/utils/auth.util';
 import { envSchema } from '@/config/env.config';
 import { Toaster } from '@/components/ui/toaster';
 import { TanstackProvider } from '@/providers/tanstack-provider';
 
 import './globals.css';
 import { Navbar } from './_components/navbar';
-
 
 const exo = Exo({ subsets: ['latin'] });
 
@@ -22,26 +20,26 @@ export default async function RootLayout({ children }: WithChildren) {
   try {
     envSchema.parse(process.env);
 
-    const session = await getServerSession(authOptions);
-
     return (
-      <TanstackProvider>
-        <html
-          lang="pt-br"
-          className="scroll-smooth"
-          suppressHydrationWarning={true}
-        >
-          <body className={exo.className}>
-            <main className="w-full min-h-screen relative">
-              <Navbar session={session} />
-              <div className="w-full absolute top-[120px] left-0">
-                {children}
-              </div>
-            </main>
-            <Toaster />
-          </body>
-        </html>
-      </TanstackProvider>
+      <ClerkProvider>
+        <TanstackProvider>
+          <html
+            lang="pt-br"
+            className="scroll-smooth"
+            suppressHydrationWarning={true}
+          >
+            <body className={exo.className}>
+              <main className="w-full min-h-screen relative">
+                <Navbar />
+                <div className="w-full absolute top-[120px] left-0">
+                  {children}
+                </div>
+              </main>
+              <Toaster />
+            </body>
+          </html>
+        </TanstackProvider>
+      </ClerkProvider>
     );
   } catch (error) {
     console.error(error);

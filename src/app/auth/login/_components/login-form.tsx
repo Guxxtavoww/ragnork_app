@@ -2,7 +2,8 @@
 
 import { useForm } from 'react-hook-form';
 import { FaDiscord } from 'react-icons/fa';
-import { signIn } from 'next-auth/react';
+import { useSignIn } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
@@ -19,6 +20,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { LoginFormType, loginFormSchema } from './login-form.schema';
 
 export function LoginForm() {
+  const { signIn } = useSignIn();
+  const router = useRouter();
+
   const form = useForm<LoginFormType>({
     resolver: zodResolver(loginFormSchema),
   });
@@ -33,7 +37,6 @@ export function LoginForm() {
               onSubmit={form.handleSubmit((data) => console.log(data))}
             >
               <h2 className="font-bold text-4xl">Logar</h2>
-
               <FormField
                 control={form.control}
                 name="email"
@@ -68,19 +71,14 @@ export function LoginForm() {
                   </FormItem>
                 )}
               />
-
-              <Button className="w-full" variant="default">
+              <Button className="w-full rounded-full" variant="default">
                 Entrar
               </Button>
               <Button
                 variant="outline"
                 type="button"
-                className="bg-[#5865f2] w-full hover:bg-indigo-500"
-                onClick={() =>
-                  signIn('discord', {
-                    callbackUrl: window.location.origin,
-                  })
-                }
+                className="bg-[#5865f2] rounded-full w-full hover:bg-indigo-500"
+                onClick={() => router.replace('/auth/discord')}
               >
                 <FaDiscord color="#fff" size={24} />
               </Button>
