@@ -51,6 +51,7 @@ export async function POST(req: Request) {
         email: email_addresses[0].email_address,
         last_ip: req.headers.get('x-forwarded-for')?.split(',')[0] || '',
         id,
+        photo_url: image_url,
       });
     });
 

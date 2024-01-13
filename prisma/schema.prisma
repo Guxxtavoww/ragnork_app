@@ -17,6 +17,7 @@ model login {
   userid                 String    @id @unique @default(cuid())
   account_id             String    @default(cuid())
   user_pass              String?
+  photo_url              String?
   sex                    sex_enum  @default(M)
   email                  String
   group_id               Int       @default(0)

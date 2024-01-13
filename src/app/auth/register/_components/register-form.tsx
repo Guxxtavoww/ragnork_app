@@ -20,7 +20,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { RegisterFormType, registerFormSchema } from './register-form.schema';
 
 export function RegiserForm() {
-  const { signUp } = useSignUp();
+  const { signUp, setActive } = useSignUp();
 
   const { isPending: isPendingDefultRegister, mutate } = useMutation({
     mutationKey: ['register'],
@@ -30,6 +30,12 @@ export function RegiserForm() {
         emailAddress: data.email,
         username: data.name,
       });
+
+      console.log(response);
+
+      if (response?.status === 'complete') {
+        setActive?.({ session: response.createdSessionId });
+      }
 
       return;
     },
