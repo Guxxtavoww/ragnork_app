@@ -5,7 +5,6 @@ import DiscordProvider from 'next-auth/providers/discord';
 
 import { db } from '@/server/lib/database.lib';
 
-
 export const authOptions = {
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
