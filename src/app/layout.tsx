@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: WithChildren) {
   try {
-    envSchema.parse(process.env);
+    const envVars = envSchema.parse(process.env);
 
     return (
-      <ClerkProvider>
+      <ClerkProvider publishableKey={envVars.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
         <TanstackProvider>
           <html
             lang="pt-br"

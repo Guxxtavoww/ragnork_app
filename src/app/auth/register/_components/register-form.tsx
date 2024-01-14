@@ -44,8 +44,10 @@ export function RegiserForm() {
   const { isPending, mutateAsync } = useMutation({
     mutationKey: ['register-with-discord'],
     mutationFn: async () =>
-      signUp?.create({
+      signUp?.authenticateWithRedirect({
         strategy: 'oauth_discord',
+        redirectUrl: '/api/discord',
+        redirectUrlComplete: '/',
       }),
   });
 
