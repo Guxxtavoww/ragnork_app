@@ -29,3 +29,9 @@ export const registerFormSchema = z
   });
 
 export type RegisterFormType = z.infer<typeof registerFormSchema>;
+
+export const codeFormSchema = z.object({
+  code: z.string({ required_error: 'Insira um código' }),
+});
+
+export type CodeFormType = z.infer<typeof codeFormSchema>;
