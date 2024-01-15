@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { FaDiscord } from 'react-icons/fa';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import {
   Form,
@@ -20,24 +21,27 @@ import { Card, CardContent } from '@/components/ui/card';
 import { RegisterFormType, registerFormSchema } from './register-form.schema';
 
 export function RegiserForm() {
-  const { signUp, setActive } = useSignUp();
+  const router = useRouter();
+  const { signUp, setActive, isLoaded } = useSignUp();
 
   const { isPending: isPendingDefultRegister, mutate } = useMutation({
     mutationKey: ['register'],
     mutationFn: async (data: RegisterFormType) => {
-      const response = await signUp?.create({
-        password: data.password,
-        emailAddress: data.email,
-        username: data.name,
-      });
+      await signUp
+        ?.create({
+          password: data.password,
+          emailAddress: data.email,
+          username: data.name,
+        })
+        .then((response) => {
+          console.log(response);
 
-      console.log(response);
-
-      if (response?.status === 'complete') {
-        setActive?.({ session: response.createdSessionId });
-      }
-
-      return;
+          if (response?.status === 'complete') {
+            setActive?.({ session: response.createdSessionId });
+            router.replace('/');
+          }
+        })
+        .catch((err) => console.log(err));
     },
   });
 
@@ -62,7 +66,11 @@ export function RegiserForm() {
           <Form {...form}>
             <form
               className="flex flex-col items-center gap-3 py-2 justify-center"
-              onSubmit={form.handleSubmit((data) => mutate(data))}
+              onSubmit={form.handleSubmit((data) => {
+                if (!isLoaded) return;
+
+                mutate(data);
+              })}
             >
               <h2 className="font-bold text-4xl">Cadastrar-se</h2>
               <FormField
