@@ -39,7 +39,8 @@ export const navbarLinks = [
     ],
   },
   {
-    linkLabel: 'Doações',
-    href: '/donations',
+    linkLabel: 'Contas do Jogo',
+    href: '/game-accounts',
+    isProtected: true,
   },
 ];

@@ -31,7 +31,7 @@ export default async function RootLayout({ children }: WithChildren) {
             <body className={exo.className}>
               <main className="w-full min-h-screen relative">
                 <Navbar />
-                <div className="w-full absolute top-[120px] left-0">
+                <div className="w-full absolute top-[120px] overflow-x-hidden left-0">
                   {children}
                 </div>
               </main>

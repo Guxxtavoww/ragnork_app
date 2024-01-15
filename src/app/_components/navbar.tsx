@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { IoChevronDown } from 'react-icons/io5';
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import { SignedIn, SignedOut, UserButton, useAuth } from '@clerk/nextjs';
 
 import {
   HoverCard,
@@ -17,6 +17,7 @@ import { AuthControls } from './auth-controls';
 
 export function Navbar() {
   const pathname = usePathname();
+  const { isSignedIn } = useAuth();
 
   return (
     <nav className="z-20 w-full bg-white flex items-center justify-center h-[120px] fixed top-0 left-0 navbar-padding shadow-sm">
@@ -31,12 +32,13 @@ export function Navbar() {
             <AuthControls />
           </SignedOut>
           <SignedIn>
-            <UserButton afterSignOutUrl="/" />
+            <UserButton afterSignOutUrl="/" userProfileUrl="/user" />
           </SignedIn>
         </div>
         <div className="flex justify-start pt-2 gap-3">
           {navbarLinks.map((link, index) =>
-            link.href && !link.subMenuLinks ? (
+            link.isProtected && !isSignedIn ? null : link.href &&
+              !link.subMenuLinks ? (
               <Link
                 href={link.href}
                 key={index}
