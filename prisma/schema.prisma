@@ -14,29 +14,38 @@ enum sex_enum {
 }
 
 model login {
-  userid                 String    @id @unique @default(cuid())
-  account_id             String    @default(cuid())
+  userid                 String         @id @unique @default(cuid())
+  account_id             String         @default(cuid())
   user_pass              String?
   photo_url              String?
-  sex                    sex_enum  @default(M)
+  sex                    sex_enum       @default(M)
   email                  String
-  group_id               Int       @default(0)
-  state                  Int       @default(0)
-  unban_time             Int       @default(0)
-  expiration_time        Int       @default(0)
-  logincount             Int       @default(0)
+  group_id               Int            @default(0)
+  state                  Int            @default(0)
+  unban_time             Int            @default(0)
+  expiration_time        Int            @default(0)
+  logincount             Int            @default(0)
   lastlogin              DateTime?
   last_ip                String
   birthdate              DateTime?
-  character_slots        Int       @default(0)
+  character_slots        Int            @default(0)
   pincode                String?
-  pincode_change         Int       @default(0)
-  vip_time               Int       @default(0)
-  old_group              Int       @default(0)
+  pincode_change         Int            @default(0)
+  vip_time               Int            @default(0)
+  old_group              Int            @default(0)
   web_auth_token         String?
-  web_auth_token_enabled Int       @default(0)
+  web_auth_token_enabled Int            @default(0)
   discord_id             String?
-  last_unique_id         Int       @default(0)
+  last_unique_id         Int            @default(0)
+  game_accounts          game_account[]
+}
+
+model game_account {
+  game_account_id       String @id @default(cuid())
+  game_account_name     String
+  game_account_password String
+  game_account_owner_id String
+  game_account_owner    login  @relation(fields: [game_account_owner_id], references: [userid])
 }
 
 model character_class {
