@@ -40,6 +40,16 @@ export async function POST(req: Request) {
 
   const eventType = evt.type;
 
+  if (eventType === 'user.deleted') {
+    const { id } = evt.data;
+
+    await import('@/server/actions/user/delete-user.action').then(
+      ({ deleteUser }) => {
+        return deleteUser(id!);
+      }
+    );
+  }
+
   if (eventType === 'user.created') {
     const { id, email_addresses, image_url } = evt.data;
 
